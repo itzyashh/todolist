@@ -18,6 +18,7 @@ const App = () => {
   const [selectedTab, setSelectedTab] = React.useState('All')
   const [showDialog, setShowDialog] = React.useState(false)
   const [inputText, setInputText] = React.useState('')
+  const scrollRef = React.useRef(null)
 
   React.useEffect(() => {
     getTodoList()
@@ -71,6 +72,9 @@ const App = () => {
     setTodoList(newTodoList)
     setInputText('')
     setShowDialog(false)
+    setTimeout(()=>{
+      scrollRef.current.scrollToEnd()
+    },300)
   }
 
   const saveTodo = async () => {
@@ -105,8 +109,11 @@ const App = () => {
        visible={showDialog} onBackdropPress={()=>setShowDialog(false)}>
       <Dialog.Title>Add todo</Dialog.Title>
       <Dialog.Input 
-      textInputRef={(input)=>input && input.focus()}
       onChangeText={(text)=>setInputText(text)}
+      onSubmitEditing={addTodo}
+      autoFocus={true}
+      autoCapitalize='sentences'
+      autoCorrect={false}
        placeholder='eg. Learn React Native' />
 
       <Dialog.Button
@@ -156,6 +163,8 @@ const App = () => {
         </View>
         <View style={s.body}>
           <ScrollView
+          ref={scrollRef}
+          contentContainerStyle={s.scrollViewContentContainerStyle}
             showsVerticalScrollIndicator={false}>
           {renderTodoList()}
           </ScrollView>

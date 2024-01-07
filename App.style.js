@@ -19,5 +19,9 @@ export const s = StyleSheet.create({
     },
     todoItem:{
         marginTop:10,
-    }
+    },
+    scrollViewContentContainerStyle:{
+        paddingBottom:20,
+    },
+    
 })
